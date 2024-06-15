@@ -1,7 +1,10 @@
 // Importaciones
-const connection = require("./database/connection");
-const express = require("express");
-const cors = require("cors");
+import connection from "./database/connection.js";
+import express, { json, urlencoded } from "express";
+import cors from "cors";
+import UserRoutes from './routes/user.js'
+import PublicationsRoutes from './routes/publications.js'
+import FollowRoutes from './routes/follow.js'
 
 // Mensaje de bienvenida
 console.log("API NODE arriba");
@@ -18,16 +21,20 @@ const puerto = 3900;
 app.use(cors());
 
 // Conversión de datos (body a objetos JS)
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(json());
+app.use(urlencoded({extended: true}));
 
 // Configurar rutas
+app.use('/api/user', UserRoutes);
+app.use('/api/publications', PublicationsRoutes);
+app.use('/api/follow', FollowRoutes);
+
 app.get('/test-route', (req, res)=> {
   return res.status(200).json(
     {
       'id': 1,
-      'name': 'William ',
-      'username': 'Alape rivera'
+      'name': 'Inés María',
+      'username': 'inesmaoria'
     }
   );
 })
